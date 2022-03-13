@@ -44,6 +44,8 @@ class Lain:
                 pass
             elif line[0] == 'goto':
                 if not line[1].isnumeric():
+                    if line[1][0] != '"':
+                        line[1] = self.variables[line[1]]
                     if line[1][0] == '"':
                         destination = -1
                         for i in range(len(self.program)):
@@ -59,7 +61,6 @@ class Lain:
                         else:
                             self.index = destination
                             continue
-                    line[1] = self.variables[line[1]]
                 self.index = int(line[1])
                 continue
 
