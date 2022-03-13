@@ -40,9 +40,25 @@ class Lain:
                     string = i + ' '
                 else:
                     line.append(i)
-
-            if line[0] == 'goto':
+            if line[0][0] == ':':
+                pass
+            elif line[0] == 'goto':
                 if not line[1].isnumeric():
+                    if line[1][0] == '"':
+                        destination = -1
+                        for i in range(len(self.program)):
+                            j = self.program[i].replace(';', ' ; ')
+                            j = j.split(' ')
+                            if j[0][0] == ':':
+                                if j[0][1:] == line[1][1:-1]:
+                                    destination = i
+                                    break
+                        if destination == -1:
+                            self.index += 1
+                            continue
+                        else:
+                            self.index = destination
+                            continue
                     line[1] = self.variables[line[1]]
                 self.index = int(line[1])
                 continue
